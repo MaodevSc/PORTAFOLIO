@@ -1,0 +1,28 @@
+<a {...Astro.props} class="text-xl z-20 font-semibold">
+    <slot />
+</a>
+
+<style>
+    a {        
+        color:  rgb(188, 192, 211);
+        text-decoration: none;
+        transition: color 0.2s;
+        transition: ease 0.5s;
+        text-shadow: 0px 0px 15px rgb(72, 63, 201);
+    }
+    @media (min-width: 768px) {
+        .font-semibold{
+            padding: 8px 12px;
+        }
+    }
+    
+
+    @media (hover: hover) {
+        a:hover {
+            color: rgb(199, 204, 230);
+            text-shadow: -20px 0px 35px rgb(47, 34, 233), 20px 0px 35px rgb(47, 34, 233);            
+            transform: scale(1.1);
+            backdrop-filter: blur(10px);
+        }
+    }
+</style>

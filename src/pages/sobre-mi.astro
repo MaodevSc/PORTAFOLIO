@@ -1,0 +1,143 @@
+---
+import Layout from "../layouts/Layout.astro";
+const technologies = ["ASTRO.JS", "REACT.JS", "C#", "GITHUB", "FLUTTER", "HTML", "CSS", "JAVASCRIPT", "PHP", "ARDUINO", "MYSQL"];
+
+---
+
+<Layout title="Sobre mi">
+  
+    <div class="flex flex-col h-fit max-h-dvh  relative">
+        <a href="/" class="w-12 h-12 absolute left-2 top-1"><div class="bg-[url(/icons/icon-back.png)] bg-contain h-10 w-10 rotate-45 z-50 relative"></div></a>
+        
+        <main class="grid w-full h-full md:h-dvh z-20 bg-zinc-300 " transition:name={`sobre-mi`}>
+          <button id="contacto"  class="contacto absolute z-50 right-16 top-8 md:top-6 md:right-10 text-xl text-black p-1">CONTACTO</button>
+            
+            <section class="md:w-9/12 h-3/5 flex md:flex-row flex-col items-center md:justify-center mt-8 md:m-auto ">
+                <article class="md:w-[470px] md:min-w-[450px] w-9/12 md:p-10 p-7 bg-slate-200 text-xs md:text-base tracking-wider leading-snug text-pretty z-30 custom-shadow">
+                    <h1 class="md:text-5xl text-4xl font-bold mb-5 md:mb-8">Sobre mi</h1>
+                    <p>
+                        Soy Marco Antonio, estudiante de sistemas informáticos. Tengo 21 años y resido en la hermosa ciudad de Santa Cruz de la Sierra. <br><br>
+
+                        He tenido la oportunidad de conocer compañeros y docentes muy hábiles, logrando compartir conocimientos con muchos de ellos.<br><br>
+
+                        Tengo 2 años estudiando programación y estoy emocionado por formar parte de tu equipo...<br><br>
+
+                        
+                    </p>
+                </article>
+                <aside class="md:w-[370px] md:min-w-[350px] w-8/12 grid md:h-full h-dvh overflow-hidden  custom-shadow ">
+                    
+                    <div class="h-full bg-catedral z-40 relative">
+                        <p class="opacity-85 absolute bottom-1 right-4 text-gray-200 santa-cruz">Santa Cruz </p>
+                    </div>
+                </aside>
+            </section>
+
+            <div class="overflow-hidden absolute bottom-0 z-50 w-auto min-w-full py-3">
+              <div class="flex whitespace-nowrap animate-carrusel min-w-full">
+                <div class="flex min-w-full">
+                  {technologies.map((tech) => (
+                    <span class="text-xl font-bold text-neutral-200 px-2 md:px-8 py-2 flex-grow text-center">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                <div class="flex min-w-full">
+                  {technologies.map((tech) => (
+                    <span class="text-xl font-bold text-neutral-200 px-2 md:px-8 py-2 flex-grow text-center">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            
+        </main>
+    </div>
+</Layout>
+
+
+<style>
+    /* main{
+        background-color: #ebebeb;
+    } */
+    article{
+        font-family:"Alkatra";
+        font-weight: 400; 
+        /* background-color: #ebebeb;        */
+    }
+    .santa-cruz{
+        font-family: 'Alkatra';
+    }
+   
+
+/* Clase para el contenedor con el fondo animado */
+.bg-catedral {
+    background-image: url('/catedral-7-b.jpeg'); /* Imagen de fondo */
+    background-size: cover; /* Asegura que cubra todo el contenedor */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: 70% center; /* Punto inicial de la imagen */
+    animation: slide 266s linear infinite; /* Animación suave */
+}
+
+/* Animación de la posición del fondo */
+@keyframes slide {
+    0% {
+        background-position: 70% center;
+    }
+    15% {
+        background-position: 100% center;
+    }
+    65% {
+        background-position: 0% center;
+    }
+    100% {
+        background-position: 70% center;
+    }
+}
+
+.custom-shadow {
+    box-shadow: 20px 15px 40px rgba(0, 0, 0, 0.1),
+                20px -1px 40px rgba(0, 0, 0, 0.1),/* sombra superior*/ 
+                -20px -1px 40px rgba(0, 0, 0, 0.1), /* Capas de sombra */
+                -20px 15px 40px rgba(0, 0, 0, 0.2), /* Capas de sombra */
+                20px 15px 80px rgba(0, 0, 0, 0.3),
+                20px -1px 60px rgba(0, 0, 0, 0.2), 
+                -20px -1px 60px rgba(0, 0, 0, 0.2), /* Capas de sombra */
+                -20px 15px 80px rgba(0, 0, 0, 0.3); /* Capas de sombra */
+
+}
+
+
+@keyframes carrusel {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100%));
+    }
+  }
+
+  .animate-carrusel {
+    display: flex;
+    animation: carrusel 50s linear infinite;
+    min-width: 100%;
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5),
+    3px 2px 5px rgba(0, 0, 0, 0.5),
+    4px 3px 2px rgba(0, 0, 0, 0.7);    
+  }
+  .contacto{
+    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.3);
+  }
+  @media (hover: hover) {
+		.contacto:hover {
+      text-shadow: 2px 1px 4px rgba(0, 0, 0, 0.3);
+		}
+	}
+
+</style>
+
+
+
+

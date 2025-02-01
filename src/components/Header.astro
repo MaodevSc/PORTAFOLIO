@@ -1,0 +1,33 @@
+---
+import NavButton from "./NavButton.astro";
+
+const isIndex = Astro.url.pathname === "/";
+---
+
+<header>
+    <nav class=" gap-8 md:gap-6 flex nav">
+        <NavButton href="https://github.com/MaodevSc">
+            GITHUB
+        </NavButton>
+
+        <NavButton id="contacto">
+            CONTACTO
+        </NavButton>
+
+        <NavButton href={isIndex ? "/proyectos" : "/"}>
+            {isIndex ? "PROYECTOS" : "INICIO"}
+        </NavButton>
+    </nav>
+</header>
+<style>
+    .nav{
+        margin-left: 0;
+        transition: ease 0.5s;
+    }
+    @media (min-width: 1200px) {
+    .nav {
+        margin-left: 20%;
+        transition: ease 0.5s;
+    }
+}
+</style>

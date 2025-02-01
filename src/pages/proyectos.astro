@@ -1,0 +1,143 @@
+---
+import Header from "../components/Header.astro";
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+//import imagen from "../images/Test_click.png";
+// Importa automáticamente todas las imágenes de la carpeta "images"
+import { Image } from "astro:assets";
+
+const projects = await getCollection("projects");
+const imageImports: Record<
+    string,
+    { default: string; width: number; height: number }
+> = import.meta.glob("../images/*.{png,jpg,jpeg,svg,gif}", { eager: true });
+
+const projectsWithImages = projects
+    .map((project) => {
+        const imageName = project.data.img; // Ejemplo: "Test_click.png"
+        const imagePath = `../images/${imageName}`;
+        const image = imageImports[imagePath]?.default || ""; // Obtener la imagen correspondiente
+
+        return {
+            ...project, // Copiar el proyecto original
+            image, // Agregar la nueva propiedad
+        };
+    })
+    .sort((a, b) => (a.data.order || 0) - (b.data.order || 0)); // Ordenar por el campo `order`
+---
+
+<Layout title="Proyectos" >
+    <div class="mt-6 w-auto flex justify-center nav">
+        <Header inicio="INICIO" class="headernav" />
+    </div>
+
+    <main class="grid pt-10">
+        <div class="flex flex-wrap z-20 justify-center">
+            {
+                projectsWithImages.map((project) => {
+                    const { slug, data, image } = project;
+                    const {
+                        title,
+                        project_type,
+                        img,
+                        description,
+                        technologies,
+                        img_aspect,
+                        background,
+                        position,
+                    } = data;
+
+                    const isRight = position === "right"; // Determina si debe ser "right"
+
+                    // Separar tecnologías
+                    const techArray = technologies
+                        .split(",")
+                        .map((tech) => tech.trim());
+
+                    return (
+                        <section
+                            class={`flex justify-center w-11/12 border-b-2 border-neutral-50 md:p-8 z-10 md:px-8 py-4 ${isRight ? "flex-row-reverse" : ""}`}
+                        >
+                            <div
+                                class={`flex-wrap w-11/12 z-10  ${isRight ? "text-right" : ""}`}
+                            >
+                                <h4 class="text-xs md:text-xl">
+                                    {project_type.toUpperCase()}
+                                </h4>
+
+                                <h2  class=" md:pt-4 text-base md:text-3xl font-bold text-neutral-50">
+                                    {title.toUpperCase()}
+                                </h2>
+
+                                <div
+                                    class={`w-4/5 md:pt-6 ${isRight ? "ml-auto" : "mr-auto"}`}
+                                >
+                                    <p class="text-xs md:text-xl  text-neutral-50">
+                                        {description}
+                                    </p>
+                                </div>
+
+                                <div class={`md:pt-8 ${isRight ? "ml-auto" : "mr-auto"}`}>
+                                    {techArray.map((tech) => (
+                                        <span class="tech bg-neutral-800 text-neutral-50 mr-2 md:mr-3 text-xs md:text-lg pl-2 md:pl-3 md:pr-2 py-0 md:py-1 rounded-sm md:rounded-md shadow-lg">
+                                            {tech}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div class="flex md:w-3/4 w-11/12 z-20 items-center">
+                            <a href={`/proyectos/${slug}`}>
+                                <Image
+                                    transition:name={`img-${slug}`}
+                                    src={image}
+                                    alt={title}
+                                    class="w-full pointer-none"
+                                    width={image.width}
+                                    height={image.height}
+                                />
+                            </a>                               
+                            </div>
+                        </section>
+                    );
+                })
+            }
+        </div>
+    </main>
+</Layout>
+
+<style>
+    .headernav {
+        transition: ease 0.5s;
+    }
+    .border-b-2 {
+        --tw-border-opacity: 0.1;
+        border-color: rgb(250 250 250 / var(--tw-border-opacity, 1));
+    }
+
+    .nav {
+        margin-right: 13%;
+        transition: ease 0.5s;
+    }
+
+    h4 {
+        color: #7872e4;
+    }
+    .tech{
+        padding-top: 2px;
+        padding-bottom: 1px;
+        padding-right: 5px;
+    }
+    @media (max-width: 1200px) {
+        .nav {
+            margin-right: 0;
+        }
+    }
+
+    .pointer-none{
+        pointer-events: none; /* La imagen no puede recibir eventos de clic */
+        user-select: none;/* Evita la selección */
+        -webkit-user-drag: none;/* Evita arrastrar la imagen*/ 
+    }
+    
+</style>

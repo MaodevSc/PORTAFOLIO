@@ -1,0 +1,68 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import { Image } from "astro:assets";
+// Importar imágenes dinámicamente
+const imageImports: Record<string, { default: string; width: number; height: number }> = import.meta.glob('../../images/*.{png,jpg,jpeg,svg,gif}', { eager: true });
+
+export async function getStaticPaths() {
+    const projects = await getCollection("projects");
+    
+    return projects.map((project) => ({
+        params: {
+            id: project.slug,
+        },
+        props: {
+            project,
+        },
+    }));
+}
+const { project } = Astro.props;
+const { slug, data } = project;
+const { title, project_type, img , description, technologies, img_aspect, background, position } = data;
+
+const {Content} = await render(project);
+
+// Resolver la imagen correspondiente
+const imagePath = `../../images/${img}`;
+const image = imageImports[imagePath]?.default || '';
+---
+
+<Layout title={`${title} - Proyectos`}>  
+    <div class="grid">
+        <div class="flex flex-col items-center z-10">                
+            <aside class=" flex flex-col items-center mt-10 w-10/12 md:w-8/12  z-20">
+                <a href="../proyectos">
+                    <Image
+                    transition:name={`img-${slug}`}
+                    src={image}
+                    alt={title}
+                    class=" h-auto object-cover pointer-none"
+                    width={image.width}
+                    height={image.height}
+                    />
+
+                </a>
+               
+            </aside>
+            <main class="bg-neutral-950 pt-4 pb-4 bg-opacity-40 backdrop-blur-3xl pl-2 pr-2 md:pl-10 md:pr-12 flex flex-col items-center mt-10 w-10/12 md:w-8/12 mb-12 z-20">
+                <h1 class="text-2xl md:text-4xl font-bold text-gray-200 text-center ">{title.toUpperCase()}</h1>
+                <div class=" text-gray-200 text-left text-xs md:text-lg pt-5 tracking-wider leading-snug text-pretty"><Content/></div>
+            </main>
+               
+                
+        
+        </div>      
+    </div>
+        
+              
+</Layout>
+
+
+<style>
+    .pointer-none{
+        pointer-events: none; /* La imagen no puede recibir eventos de clic */
+        user-select: none;/* Evita la selección */
+        -webkit-user-drag: none;/* Evita arrastrar la imagen*/ 
+    }
+</style>
