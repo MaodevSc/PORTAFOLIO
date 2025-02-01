@@ -25,7 +25,7 @@ const {Content} = await render(project);
 
 // Resolver la imagen correspondiente
 const imagePath = `../../images/${img}`;
-const image = imageImports[imagePath]?.default || '';
+const image = imageImports[imagePath] || { default: '', width: 0, height: 0 };
 ---
 
 <Layout title={`${title} - Proyectos`}>  
@@ -35,7 +35,7 @@ const image = imageImports[imagePath]?.default || '';
                 <a href="../proyectos">
                     <Image
                     transition:name={`img-${slug}`}
-                    src={image}
+                    src={image.default}
                     alt={title}
                     class=" h-auto object-cover pointer-none"
                     width={image.width}
