@@ -16,7 +16,7 @@ const projectsWithImages = projects
     .map((project) => {
         const imageName = project.data.img; // Ejemplo: "Test_click.png"
         const imagePath = `../images/${imageName}`;
-        const image = imageImports[imagePath]?.default || ""; // Obtener la imagen correspondiente
+        const image = imageImports[imagePath] || { default: '', width: 0, height: 0 };
 
         return {
             ...project, // Copiar el proyecto original
@@ -39,11 +39,8 @@ const projectsWithImages = projects
                     const {
                         title,
                         project_type,
-                        img,
                         description,
                         technologies,
-                        img_aspect,
-                        background,
                         position,
                     } = data;
 
@@ -90,7 +87,7 @@ const projectsWithImages = projects
                             <a href={`/proyectos/${slug}`}>
                                 <Image
                                     transition:name={`img-${slug}`}
-                                    src={image}
+                                    src={image.default}
                                     alt={title}
                                     class="w-full pointer-none"
                                     width={image.width}
